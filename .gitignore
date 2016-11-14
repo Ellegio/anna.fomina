@@ -12,9 +12,10 @@
 hs_err_pid*
 
 # Target, bin and settings
-target*
-bin*
-backup*
+usermanagement/target*
+usermanagement/bin*
+usermanagement/backup*
+usermanagement/$*
 .metadata
 .Rhistory
 .settings*
