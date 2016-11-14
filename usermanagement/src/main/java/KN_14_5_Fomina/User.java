@@ -1,7 +1,7 @@
 package KN_14_5_Fomina;
 
-import java.util.Calendar;
 import java.util.Date;
+import java.util.Calendar;
 
 public class User {
 	private Long id;
@@ -26,22 +26,24 @@ public class User {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public Date getDateOfBirth() {
+	public Date getdateOfBirth() {
 		return dateOfBirth;
 	}
-	public void setDateOfBirth(Date dateOfBirth) {
+	public void setdateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
-	public String getFullName() {
-		return getFirstName() + ", " + getLastName();
+	public Object getFullName() {
+		return getLastName() + ", " + getFirstName();
 	}
-	public int getAge() {
+	public int getAge(){ 
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
 		int currentYear = calendar.get(Calendar.YEAR);
-		calendar.setTime(getDateOfBirth());
+		calendar.setTime(getdateOfBirth());
 		int year = calendar.get(Calendar.YEAR);
+			
 		return currentYear - year;
 	}
+	
 	
 }

@@ -1,6 +1,7 @@
 package KN_14_5_Fomina.db;
 
 import java.sql.CallableStatement;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,6 +18,9 @@ class HsqldbUserDao implements UserDao {
 
 	private static final String SELECT_ALL_QUERY = "SELECT id, firstname, lastname, dateofbirth FROM users";
 	private static final String INSERT_QUERY = "INSERT INTO users (firstname, lastname, dateofbirth) VALUES (?,?,?)";
+	private static final String UPDATE_QUERY = "UPDATE users SET firstname=?, lastname=?, dateofbirth=? WHERE id=?";
+    private static final String DELETE_QUERY = "DELETE FROM users WHERE id = ?";
+    private static final String SELECT_QUERY = "SELECT id, firstname, lastname, dateofbirth FROM users WHERE id=?";
 	private ConnectionFactory connectionFactory;
 	
 	public HsqldbUserDao() {
@@ -36,17 +40,17 @@ class HsqldbUserDao implements UserDao {
 
 
 
-	public User create(User user) throws DatabaseExcepion {
+	public User create(User user) throws DatabaseException {
 		try {
 			Connection connection = connectionFactory.createConnection();
 			PreparedStatement statement = connection
 					.prepareStatement(INSERT_QUERY);
 			statement.setString(1, user.getFirstName());
 			statement.setString(2, user.getLastName());
-			statement.setDate(3, new Date(user.getDateOfBirth().getTime())); /* ADDED (java.sql.Date) because of an error with setDate() */
+			statement.setDate(3, new Date(user.getdateOfBirth().getTime())); /* ADDED (java.sql.Date) because of an error with setDate() */
 			int n = statement.executeUpdate();
 			if (n != 1) {
-				throw new DatabaseExcepion("Number of the inserted rows: " + n);
+				throw new DatabaseException("Number of the inserted rows: " + n);
 			}
 			CallableStatement callableStatement = connection.prepareCall("call IDENTITY()");
 			ResultSet keys = callableStatement.executeQuery();
@@ -58,29 +62,92 @@ class HsqldbUserDao implements UserDao {
 			statement.close();
 			connection.close();
 			return user;
-		} catch (DatabaseExcepion e) { 
+		} catch (DatabaseException e) { 
 			throw e;
 		} catch (SQLException e) {
-			throw new DatabaseExcepion(e);
+			throw new DatabaseException(e);
 		}
 	}
 
-	public void update(User user) throws DatabaseExcepion {
-		// TODO Auto-generated method stub
-
+		
+	public void update(User user) throws DatabaseException {
+		try
+		{
+			Connection connection = this.connectionFactory.createConnection();
+			PreparedStatement statement = connection.prepareStatement(this.UPDATE_QUERY);
+			statement.setString(1, user.getFirstName());
+			statement.setString(2, user.getLastName());
+			statement.setDate(3, new Date(user.getdateOfBirth().getTime()));
+			Long id = user.getId();
+			statement.setLong(4, id.longValue());
+			int n = statement.executeUpdate();
+			if(n != 1)
+			{
+				throw new DatabaseException("update failed - number of updated rows: " + n);
+			}
+		}
+		catch(DatabaseException e)
+		{
+			throw e;
+		}
+		catch(SQLException e)
+		{
+			throw new DatabaseException(e);
+		}
 	}
 
-	public void delete(User user) throws DatabaseExcepion {
-		// TODO Auto-generated method stub
-
+    
+    public void delete(User user) throws DatabaseException {
+    	try
+		{
+			Connection connection = this.connectionFactory.createConnection();
+			PreparedStatement statement = connection.prepareStatement(this.DELETE_QUERY);
+			statement.setLong(1, user.getId().longValue());
+			int n = statement.executeUpdate();
+			if(n != 1)
+			{
+				throw new DatabaseException("delete failed - number of deleted rows: " + n);
+			}
+		}
+		catch(DatabaseException e)
+		{
+			throw e;
+		}
+		catch(SQLException e)
+		{
+			throw new DatabaseException(e);
+		}
 	}
+    
+    
+    public User find(Long id) throws DatabaseException {
+    	User user = new User();
+		try
+		{
+			Connection connection = this.connectionFactory.createConnection();
+			PreparedStatement statement = connection.prepareStatement(this.SELECT_QUERY);
+			statement.setLong(1, id.longValue());
+			ResultSet resultSet = statement.executeQuery();
+			while(resultSet.next())
+			{
+				user.setId(new Long(resultSet.getLong(1)));
+				user.setFirstName(resultSet.getString(2));
+				user.setLastName(resultSet.getString(3));
+				user.setdateOfBirth(resultSet.getDate(4));
+			}
+		}
+		catch(DatabaseException e)
+		{
+			throw e;
+		}
+		catch(SQLException e)
+		{
+			throw new DatabaseException(e);
+		}
+		return user;
+    }
 
-	public User find(Long id) throws DatabaseExcepion {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Collection findAll() throws DatabaseExcepion {
+	public Collection findAll() throws DatabaseException {
 		Collection result = new LinkedList();
 		
 		try {
@@ -92,13 +159,13 @@ class HsqldbUserDao implements UserDao {
 				user.setId(new Long(resultSet.getLong(1)));
 				user.setFirstName(resultSet.getString(2));
 				user.setLastName(resultSet.getString(3));
-				user.setDateOfBirth(resultSet.getDate(4));
+				user.setdateOfBirth(resultSet.getDate(4));
 				result.add(user);
 			}
-		} catch (DatabaseExcepion e) {
+		} catch (DatabaseException e) {
 			throw e;
 		} catch (SQLException e) {
-			throw new DatabaseExcepion(e);
+			throw new DatabaseException(e);
 		}
 		return result;
 	}

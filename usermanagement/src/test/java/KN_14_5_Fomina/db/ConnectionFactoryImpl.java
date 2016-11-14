@@ -19,7 +19,7 @@ public class ConnectionFactoryImpl implements ConnectionFactory {
 		this.password = password;
 	}
 
-	public Connection createConnection() throws DatabaseExcepion {
+	public Connection createConnection() throws DatabaseException {
 		try {
 			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
@@ -28,7 +28,7 @@ public class ConnectionFactoryImpl implements ConnectionFactory {
 		try {
 			return DriverManager.getConnection(url, user, password);
 		} catch (SQLException e) {
-			throw new DatabaseExcepion(e);
+			throw new DatabaseException(e);
 		}
 	}
 
