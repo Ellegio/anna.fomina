@@ -5,13 +5,13 @@
 		<column>lastname</column> 
 		<column>dateofbirth</column>
 		<row>
-			<value>1000</value>
+			<value>1</value>
 			<value>Frank</value>
 			<value>Sinatra</value>
 			<value>1915-12-12</value>
 		</row>
 		<row>
-			<value>1001</value>
+			<value>2</value>
 			<value>Hans</value>
 			<value>Zimmer</value>
 			<value>1957-09-12</value>
