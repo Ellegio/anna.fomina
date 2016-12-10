@@ -15,7 +15,7 @@ public class UserTableModel extends AbstractTableModel {
 	List users = null;
 	String[] COLUMN_NAMES = { KN_14_5_Fomina.util.Messages.getString("UserTableModel.id"),
 			KN_14_5_Fomina.util.Messages.getString("UserTableModel.first_name"),
-			KN_14_5_Fomina.util.Messages.getString("UserTableModel.last_name") }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			KN_14_5_Fomina.util.Messages.getString("UserTableModel.last_name") }; 
 	Class[] COLUMN_CLASSES = { Long.class, String.class, String.class };
 
 	public UserTableModel(Collection collection) {
@@ -56,6 +56,14 @@ public class UserTableModel extends AbstractTableModel {
 
 	public KN_14_5_Fomina.User getUserByRow(int selectedRow) {
 		return (KN_14_5_Fomina.User) users.get(selectedRow);
+	}
+	
+	public void addUsers(Collection users) {
+		this.users.addAll(users);
+	}
+	   
+	public void clearUsers() {
+	    users = new ArrayList();
 	}
 
 }
