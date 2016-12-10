@@ -19,13 +19,13 @@ public class EditServletTest extends MockServletTestCase {
 
     public void testEdit() {
         LocalDate date = LocalDate.now();
-        User user = new User(666L, "Ozzy", "Osbourne", date);
+        User user = new User(666L, "James", "Spader", date);
         
         getMockUserDao().expect("update", user);
         
         addRequestParameter("id", "666");
-        addRequestParameter("firstName", "Ozzy");
-        addRequestParameter("lastName", "Osbourne");
+        addRequestParameter("firstName", "James");
+        addRequestParameter("lastName", "Spader");
         addRequestParameter("date", date.toString());
         addRequestParameter("okButton", "Ok");
         
@@ -36,7 +36,7 @@ public class EditServletTest extends MockServletTestCase {
         
         LocalDate date = LocalDate.now();
         addRequestParameter("id", "666");
-        addRequestParameter("lastName", "Osbourne");
+        addRequestParameter("lastName", "Spader");
         addRequestParameter("date", date.toString());
         addRequestParameter("okButton", "Ok");
         doPost();
@@ -50,7 +50,7 @@ public class EditServletTest extends MockServletTestCase {
         
         LocalDate date = LocalDate.now();
         addRequestParameter("id", "666");
-        addRequestParameter("firstName", "Ozzy");
+        addRequestParameter("firstName", "James");
         addRequestParameter("date", date.toString());
         addRequestParameter("okButton", "Ok");
         doPost();
@@ -63,8 +63,8 @@ public class EditServletTest extends MockServletTestCase {
     public void testEditEmptyDate() {
         
         addRequestParameter("id", "666");
-        addRequestParameter("firstName", "Ozzy");
-        addRequestParameter("lastName", "Osbourne");
+        addRequestParameter("firstName", "James");
+        addRequestParameter("lastName", "Spader");
         addRequestParameter("okButton", "Ok");
         doPost();
         
@@ -76,8 +76,8 @@ public class EditServletTest extends MockServletTestCase {
     public void testEditInvalidDate() {
         
         addRequestParameter("id", "666");
-        addRequestParameter("firstName", "Ozzy");
-        addRequestParameter("lastName", "Osbourne");
+        addRequestParameter("firstName", "James");
+        addRequestParameter("lastName", "Spader");
         addRequestParameter("date", "42");
         addRequestParameter("okButton", "Ok");
         doPost();

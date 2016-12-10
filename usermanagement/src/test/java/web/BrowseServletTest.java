@@ -24,7 +24,7 @@ public class BrowseServletTest extends MockServletTestCase {
 
 	public void testBrowse() {
 
-		User user = new User(666L, "Ozzy", "Osbourne", LocalDate.now());
+		User user = new User(666L, "James", "Spader", LocalDate.now());
 
 		List<User> list = Collections.singletonList(user);
 		getMockUserDao().expectAndReturn("findAll", list);
@@ -37,7 +37,7 @@ public class BrowseServletTest extends MockServletTestCase {
 
 	public void testEdit() {
 
-	    User user = new User(666L, "Ozzy", "Osbourne", LocalDate.now());
+	    User user = new User(666L, "James", "Spader", LocalDate.now());
 
 	    getMockUserDao().expectAndReturn("find", 666L, user);
 	    addRequestParameter("editButton", "Edit");
@@ -52,7 +52,7 @@ public class BrowseServletTest extends MockServletTestCase {
 	
 	public void testDelete() {
 	       
-	       User user = new User(666L, "Ozzy", "Osbourne", LocalDate.now());
+	       User user = new User(666L, "James", "Spader", LocalDate.now());
 	       getMockUserDao().expectAndReturn("find", 666L, user);
 	       getMockUserDao().expect("delete", user);
 	       List<User> list = new ArrayList<User>();
@@ -74,7 +74,7 @@ public class BrowseServletTest extends MockServletTestCase {
 	
 	public void testDetails() {
 	    
-	        User user = new User(666L, "Ozzy", "Osbourne", LocalDate.now());
+	        User user = new User(666L, "James", "Spader", LocalDate.now());
 	        getMockUserDao().expectAndReturn("find", 666L, user);
 	        addRequestParameter("detailsButton", "Details");
 	        addRequestParameter("id", "666");

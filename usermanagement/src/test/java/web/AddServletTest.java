@@ -19,11 +19,11 @@ public class AddServletTest extends MockServletTestCase {
 
     public void testAdd() {
         LocalDate date = LocalDate.now();
-        User user = new User(null, "Ozzy", "Osbourne", date);
-        User expectedUser = new User(666L, "Ozzy", "Osbourne", date);
+        User user = new User(null, "James", "Spader", date);
+        User expectedUser = new User(666L, "James", "Spader", date);
         getMockUserDao().expectAndReturn("create", user,expectedUser);
-        addRequestParameter("firstName", "Ozzy");
-        addRequestParameter("lastName", "Osbourne");
+        addRequestParameter("firstName", "James");
+        addRequestParameter("lastName", "Spader");
         addRequestParameter("date", date.toString());
         addRequestParameter("okButton", "Ok");
         doPost();
@@ -31,7 +31,7 @@ public class AddServletTest extends MockServletTestCase {
     
     public void testAddEmptyFirstName() {
         LocalDate date = LocalDate.now();
-        addRequestParameter("lastName", "Osbourne");
+        addRequestParameter("lastName", "Spader");
         addRequestParameter("date", date.toString());
         addRequestParameter("okButton", "Ok");
         doPost();
@@ -41,7 +41,7 @@ public class AddServletTest extends MockServletTestCase {
 
     public void testAddEmptyLastName() {
         LocalDate date = LocalDate.now();
-        addRequestParameter("firstName", "Ozzy");
+        addRequestParameter("firstName", "James");
         addRequestParameter("date", date.toString());
         addRequestParameter("okButton", "Ok");
         doPost();
@@ -50,8 +50,8 @@ public class AddServletTest extends MockServletTestCase {
     }
     
     public void testAddEmptyDate() {
-        addRequestParameter("lastName", "Osbourne");
-        addRequestParameter("firstName", "Ozzy");
+        addRequestParameter("lastName", "Spader");
+        addRequestParameter("firstName", "James");
         addRequestParameter("okButton", "Ok");
         doPost();
         String errorMessage = (String) getWebMockObjectFactory().getMockRequest().getAttribute("error");
@@ -59,9 +59,9 @@ public class AddServletTest extends MockServletTestCase {
     }
     
     public void testAddInvalidDate() {
-        addRequestParameter("firstName", "Ozzy");
-        addRequestParameter("lastName", "Osbourne");
-        addRequestParameter("date", "42");
+        addRequestParameter("firstName", "James");
+        addRequestParameter("lastName", "Spader");
+        addRequestParameter("date", "54");
         addRequestParameter("okButton", "Ok");
         doPost();
         String errorMessage = (String) getWebMockObjectFactory().getMockRequest().getAttribute("error");
